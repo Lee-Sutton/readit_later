@@ -1,0 +1,30 @@
+<h1>Listing Web pages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Url</th>
+      <th>Content</th>
+      <th>Notes</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for web_page <- @web_pages do %>
+    <tr>
+      <td><%= web_page.url %></td>
+      <td><%= web_page.content %></td>
+      <td><%= web_page.notes %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.web_page_path(@conn, :show, web_page) %></span>
+        <span><%= link "Edit", to: Routes.web_page_path(@conn, :edit, web_page) %></span>
+        <span><%= link "Delete", to: Routes.web_page_path(@conn, :delete, web_page), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Web page", to: Routes.web_page_path(@conn, :new) %></span>

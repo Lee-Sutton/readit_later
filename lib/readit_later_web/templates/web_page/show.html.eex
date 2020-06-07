@@ -1,0 +1,23 @@
+<h1>Show Web page</h1>
+
+<ul>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @web_page.url %>
+  </li>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @web_page.content %>
+  </li>
+
+  <li>
+    <strong>Notes:</strong>
+    <%= @web_page.notes %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.web_page_path(@conn, :edit, @web_page) %></span>
+<span><%= link "Back", to: Routes.web_page_path(@conn, :index) %></span>
