@@ -27,7 +27,6 @@ defmodule ReaditLaterWeb.WebPageController do
   end
 
   def show(conn, %{"id" => id}, current_user) do
-    # TODO get the web page for the user (otherwise throw an error)
     web_page = Pages.get_user_web_page!(current_user, id)
     render(conn, "show.html", web_page: web_page)
   end
