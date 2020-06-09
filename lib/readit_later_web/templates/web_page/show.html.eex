@@ -17,6 +17,13 @@
     <%= @web_page.notes %>
   </li>
 
+  <li>
+    <strong>tags:</strong>
+    <%= for tag <- @web_page.tags do %>
+      <li> <%= tag.title %> </li>
+    <% end %>
+  </li>
+
 </ul>
 
 <span><%= link "Edit", to: Routes.web_page_path(@conn, :edit, @web_page) %></span>

@@ -15,8 +15,8 @@ defmodule ReaditLaterWeb.WebPageController do
   end
 
   def create(conn, %{"web_page" => web_page_params}, current_user) do
-    IO.inspect(web_page_params)
-    case Pages.create_web_page(current_user, web_page_params) do
+    web_page_params = Map.put(web_page_params, "user", current_user)
+    case Pages.create_web_page(web_page_params) do
       {:ok, web_page} ->
         conn
         |> put_flash(:info, "Web page created successfully.")
@@ -29,6 +29,7 @@ defmodule ReaditLaterWeb.WebPageController do
 
   def show(conn, %{"id" => id}, current_user) do
     web_page = Pages.get_user_web_page!(current_user, id)
+    IO.inspect(web_page)
     render(conn, "show.html", web_page: web_page)
   end
 

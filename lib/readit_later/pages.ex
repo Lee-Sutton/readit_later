@@ -34,6 +34,7 @@ defmodule ReaditLater.Pages do
   def get_user_web_page!(user, id) do
     WebPage
     |> user_web_page_query(user)
+    |> preload([:tags])
     |> Repo.get!(id)
   end
 
@@ -49,7 +50,9 @@ defmodule ReaditLater.Pages do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_web_page(user, attrs \\ %{}) do
+  def create_web_page(attrs \\ %{}) do
+    user = attrs["user"]
+
     %WebPage{}
     |> WebPage.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
