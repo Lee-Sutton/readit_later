@@ -1,19 +1,27 @@
-<%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<div id="web-page-form">
+  <%= form_for @changeset, @action, fn f -> %>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <%= label f, :url %>
+    <%= text_input f, :url %>
+    <%= error_tag f, :url %>
+
+    <%= label f, :notes %>
+    <%= textarea f, :notes %>
+    <%= error_tag f, :notes %>
+
+
+    <%= label f, :tags %>
+
+    <v-select :options="['django', 'test']" v-model="tags" :multiple="true"></v-select>
+    <input type="hidden" :value=tags name="web_page[tags]"/>
+
+    <div>
+      <%= submit "Save" %>
     </div>
   <% end %>
-
-  <%= label f, :url %>
-  <%= text_input f, :url %>
-  <%= error_tag f, :url %>
-
-  <%= label f, :notes %>
-  <%= textarea f, :notes %>
-  <%= error_tag f, :notes %>
-
-  <div>
-    <%= submit "Save" %>
-  </div>
-<% end %>
+</div>

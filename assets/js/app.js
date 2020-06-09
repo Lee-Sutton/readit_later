@@ -13,3 +13,5 @@ import "../css/app.scss"
 //     import socket from "./socket"
 //
 import "phoenix_html"
+import "./init_vue";
+import "./web_pages";

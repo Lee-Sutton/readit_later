@@ -15,6 +15,7 @@ defmodule ReaditLaterWeb.WebPageController do
   end
 
   def create(conn, %{"web_page" => web_page_params}, current_user) do
+    IO.inspect(web_page_params)
     case Pages.create_web_page(current_user, web_page_params) do
       {:ok, web_page} ->
         conn
