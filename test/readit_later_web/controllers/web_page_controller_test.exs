@@ -2,16 +2,20 @@ defmodule ReaditLaterWeb.WebPageControllerTest do
   use ReaditLaterWeb.ConnCase
 
   alias ReaditLater.Pages
+  import ReaditLater.AccountFixtures
 
   @create_attrs %{content: "some content", notes: "some notes", url: "some url"}
   @update_attrs %{content: "some updated content", notes: "some updated notes", url: "some updated url"}
   @invalid_attrs %{content: nil, notes: nil, url: nil}
+
+  setup :register_and_login_user
 
   def fixture(:web_page) do
     {:ok, web_page} = Pages.create_web_page(@create_attrs)
     web_page
   end
 
+  @tag :only
   describe "index" do
     test "lists all web_pages", %{conn: conn} do
       conn = get(conn, Routes.web_page_path(conn, :index))
