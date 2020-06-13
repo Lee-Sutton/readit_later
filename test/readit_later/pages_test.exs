@@ -6,11 +6,13 @@ defmodule ReaditLater.PagesTest do
   describe "web_pages" do
     alias ReaditLater.Pages.WebPage
 
-    @valid_attrs %{content: "some content", notes: "some notes", url: "some url"}
+    @valid_attrs %{content: "some content", notes: "some notes", url: "some url", tags: "tag1,tag2"}
     @update_attrs %{content: "some updated content", notes: "some updated notes", url: "some updated url"}
     @invalid_attrs %{content: nil, notes: nil, url: nil}
 
     def web_page_fixture(attrs \\ %{}) do
+      user = ReaditLater.AccountFixtures.user_fixture()
+      attrs = Map.put(attrs, )
       {:ok, web_page} =
         attrs
         |> Enum.into(@valid_attrs)
