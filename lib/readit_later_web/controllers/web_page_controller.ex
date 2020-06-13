@@ -9,14 +9,13 @@ defmodule ReaditLaterWeb.WebPageController do
     render(conn, "index.html", web_pages: web_pages)
   end
 
-  def new(conn, _params, _current_user) do
-    changeset = Pages.change_web_page(%WebPage{})
+  def new(conn, _params, current_user) do
+    changeset = Pages.change_web_page(%WebPage{}, current_user)
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"web_page" => web_page_params}, current_user) do
-    web_page_params = Map.put(web_page_params, "user", current_user)
-    case Pages.create_web_page(web_page_params) do
+    case Pages.create_web_page(current_user, web_page_params) do
       {:ok, web_page} ->
         conn
         |> put_flash(:info, "Web page created successfully.")
@@ -42,7 +41,7 @@ defmodule ReaditLaterWeb.WebPageController do
   def update(conn, %{"id" => id, "web_page" => web_page_params}, current_user) do
     web_page = Pages.get_user_web_page!(current_user, id)
 
-    case Pages.update_web_page(web_page, web_page_params) do
+    case Pages.update_web_page(web_page, current_user, web_page_params) do
       {:ok, web_page} ->
         conn
         |> put_flash(:info, "Web page updated successfully.")

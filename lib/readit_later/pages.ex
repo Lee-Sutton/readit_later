@@ -21,6 +21,8 @@ defmodule ReaditLater.Pages do
   def list_user_web_pages(%Account.User{} = user) do
     WebPage
     |> user_web_page_query(user)
+    |> preload([:tags])
+    |> preload([:user])
     |> Repo.all()
   end
 
@@ -35,6 +37,7 @@ defmodule ReaditLater.Pages do
     WebPage
     |> user_web_page_query(user)
     |> preload([:tags])
+    |> preload([:user])
     |> Repo.get!(id)
   end
 
@@ -50,11 +53,9 @@ defmodule ReaditLater.Pages do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_web_page(attrs \\ %{}) do
-    user = attrs["user"]
-
+  def create_web_page(attrs \\ %{}, user) do
     %WebPage{}
-    |> WebPage.changeset(attrs)
+    |> WebPage.changeset(user, attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
@@ -71,9 +72,9 @@ defmodule ReaditLater.Pages do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_web_page(%WebPage{} = web_page, attrs) do
+  def update_web_page(%WebPage{} = web_page, user, attrs) do
     web_page
-    |> WebPage.changeset(attrs)
+    |> WebPage.changeset(user, attrs)
     |> Repo.update()
   end
 
@@ -102,8 +103,8 @@ defmodule ReaditLater.Pages do
       %Ecto.Changeset{data: %WebPage{}}
 
   """
-  def change_web_page(%WebPage{} = web_page, attrs \\ %{}) do
-    WebPage.changeset(web_page, attrs)
+  def change_web_page(%WebPage{} = web_page, user \\ %{}, attrs \\ %{}) do
+    WebPage.changeset(web_page, user, attrs)
   end
 
   defp user_web_page_query(query, %Account.User{id: user_id}) do

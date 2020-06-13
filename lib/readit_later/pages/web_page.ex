@@ -15,21 +15,19 @@ defmodule ReaditLater.Pages.WebPage do
   end
 
   @doc false
-  def changeset(web_page, attrs) do
-    IO.inspect(attrs)
-
+  def changeset(web_page, user, attrs) do
     web_page
     |> cast(attrs, [:url, :content, :notes])
     |> validate_required([:url])
-    |> Ecto.Changeset.put_assoc(:tags, parse_tags(attrs))
+    |> Ecto.Changeset.put_assoc(:tags, parse_tags(user, attrs))
   end
 
-  defp parse_tags(params) do
+  defp parse_tags(user, params) do
     (params["tags"] || "")
     |> String.split(",")
     |> Enum.map(&String.trim/1)
     |> Enum.reject(fn x -> x == "" end)
-    |> insert_and_get_all(params["user"])
+    |> insert_and_get_all(user)
   end
 
   defp insert_and_get_all([], _) do
