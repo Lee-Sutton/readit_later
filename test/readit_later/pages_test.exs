@@ -53,21 +53,21 @@ defmodule ReaditLater.PagesTest do
       assert web_page.url == "some updated url"
     end
 
-    # test "update_web_page/2 with invalid data returns error changeset" do
-    #   web_page = web_page_fixture()
-    #   assert {:error, %Ecto.Changeset{}} = Pages.update_web_page(web_page, @invalid_attrs)
-    #   assert web_page == Pages.get_web_page!(web_page.id)
-    # end
+    test "update_web_page/2 with invalid data returns error changeset", %{user: user} do
+      web_page = web_page_fixture(user)
+      assert {:error, %Ecto.Changeset{}} = Pages.update_web_page(web_page, user, @invalid_attrs)
+      assert web_page == Pages.get_user_web_page!(user, web_page.id)
+    end
 
-    # test "delete_web_page/1 deletes the web_page" do
-    #   web_page = web_page_fixture()
-    #   assert {:ok, %WebPage{}} = Pages.delete_web_page(web_page)
-    #   assert_raise Ecto.NoResultsError, fn -> Pages.get_web_page!(web_page.id) end
-    # end
+    test "delete_web_page/1 deletes the web_page", %{user: user} do
+      web_page = web_page_fixture(user)
+      assert {:ok, %WebPage{}} = Pages.delete_web_page(web_page)
+      assert_raise Ecto.NoResultsError, fn -> Pages.get_user_web_page!(user, web_page.id) end
+    end
 
-    # test "change_web_page/1 returns a web_page changeset" do
-    #   web_page = web_page_fixture()
-    #   assert %Ecto.Changeset{} = Pages.change_web_page(web_page)
-    # end
+    test "change_web_page/1 returns a web_page changeset", %{user: user} do
+      web_page = web_page_fixture(user)
+      assert %Ecto.Changeset{} = Pages.change_web_page(web_page)
+    end
   end
 end
