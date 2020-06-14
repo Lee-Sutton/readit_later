@@ -8,6 +8,7 @@ defmodule ReaditLater.Pages do
   alias ReaditLater.Repo
 
   alias ReaditLater.Pages.WebPage
+  alias ReaditLater.Account
 
   @doc """
   Returns the list of web_pages.
@@ -103,7 +104,7 @@ defmodule ReaditLater.Pages do
       %Ecto.Changeset{data: %WebPage{}}
 
   """
-  def change_web_page(%WebPage{} = web_page, user \\ %{}, attrs \\ %{}) do
+  def change_web_page(%WebPage{} = web_page, user \\ %Account.User{}, attrs \\ %{}) do
     WebPage.changeset(web_page, user, attrs)
   end
 

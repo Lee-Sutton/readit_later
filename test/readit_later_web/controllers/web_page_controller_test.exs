@@ -10,12 +10,11 @@ defmodule ReaditLaterWeb.WebPageControllerTest do
 
   setup :register_and_login_user
 
-  def fixture(:web_page) do
-    {:ok, web_page} = Pages.create_web_page(@create_attrs)
+  def fixture(:web_page, user) do
+    {:ok, web_page} = Pages.create_web_page(@create_attrs, user)
     web_page
   end
 
-  @tag :only
   describe "index" do
     test "lists all web_pages", %{conn: conn} do
       conn = get(conn, Routes.web_page_path(conn, :index))
@@ -85,8 +84,8 @@ defmodule ReaditLaterWeb.WebPageControllerTest do
     end
   end
 
-  defp create_web_page(_) do
-    web_page = fixture(:web_page)
+  defp create_web_page(%{user: user}) do
+    web_page = fixture(:web_page, user)
     %{web_page: web_page}
   end
 end
