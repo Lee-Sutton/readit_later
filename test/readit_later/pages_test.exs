@@ -7,8 +7,8 @@ defmodule ReaditLater.PagesTest do
   describe "web_pages" do
     alias ReaditLater.Pages.WebPage
 
-    @valid_attrs %{content: "some content", notes: "some notes", url: "some url", tags: "tag1,tag2"}
-    @update_attrs %{content: "some updated content", notes: "some updated notes", url: "some updated url"}
+    @valid_attrs %{content: "some content", notes: "some notes", url: "https://valid-url.com", tags: "tag1,tag2"}
+    @update_attrs %{content: "some updated content", notes: "some updated notes", url: "updated-url.com"}
     @invalid_attrs %{content: nil, notes: nil, url: nil}
 
     setup do
@@ -38,11 +38,16 @@ defmodule ReaditLater.PagesTest do
       assert {:ok, %WebPage{} = web_page} = Pages.create_web_page(@valid_attrs, user)
       assert web_page.content == "some content"
       assert web_page.notes == "some notes"
-      assert web_page.url == "some url"
+      assert web_page.url == "https://valid-url.com"
     end
 
     test "create_web_page/1 with invalid data returns error changeset", %{user: user} do
       assert {:error, %Ecto.Changeset{}} = Pages.create_web_page(@invalid_attrs, user)
+    end
+
+    test "only valid urls are accepted", %{user: user} do
+      web_page = Map.merge(@valid_attrs, %{url: "invalid url"})
+      assert {:error, %Ecto.Changeset{}} = Pages.create_web_page(web_page, user)
     end
 
     test "update_web_page/2 with valid data updates the web_page", %{user: user} do
@@ -50,7 +55,7 @@ defmodule ReaditLater.PagesTest do
       assert {:ok, %WebPage{} = web_page} = Pages.update_web_page(web_page, user, @update_attrs)
       assert web_page.content == "some updated content"
       assert web_page.notes == "some updated notes"
-      assert web_page.url == "some updated url"
+      assert web_page.url == "updated-url.com"
     end
 
     test "update_web_page/2 with invalid data returns error changeset", %{user: user} do

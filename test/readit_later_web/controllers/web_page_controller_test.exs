@@ -4,8 +4,8 @@ defmodule ReaditLaterWeb.WebPageControllerTest do
   alias ReaditLater.Pages
   import ReaditLater.AccountFixtures
 
-  @create_attrs %{content: "some content", notes: "some notes", url: "some url"}
-  @update_attrs %{content: "some updated content", notes: "some updated notes", url: "some updated url"}
+  @create_attrs %{content: "some content", notes: "some notes", url: "https://valid-url.com"}
+  @update_attrs %{content: "some updated content", notes: "some updated notes", url: "https://updated-url.com"}
   @invalid_attrs %{content: nil, notes: nil, url: nil}
 
   setup :register_and_login_user

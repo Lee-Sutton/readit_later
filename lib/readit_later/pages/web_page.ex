@@ -19,6 +19,7 @@ defmodule ReaditLater.Pages.WebPage do
     web_page
     |> cast(attrs, [:url, :content, :notes])
     |> validate_required([:url])
+    |> validate_url(:url)
     |> Ecto.Changeset.put_assoc(:tags, parse_tags(user, attrs))
   end
 
@@ -38,10 +39,36 @@ defmodule ReaditLater.Pages.WebPage do
     maps =
       Enum.map(
         tag_titles,
-        &%{title: &1, user_id: user.id, inserted_at: NaiveDateTime.local_now(), updated_at: NaiveDateTime.local_now()}
+        &%{
+          title: &1,
+          user_id: user.id,
+          inserted_at: NaiveDateTime.local_now(),
+          updated_at: NaiveDateTime.local_now()
+        }
       )
 
     Repo.insert_all(ReaditLater.Pages.Tag, maps, on_conflict: :nothing)
     Repo.all(from t in ReaditLater.Pages.Tag, where: t.title in ^tag_titles)
+  end
+
+  defp validate_url(changeset, field, options \\ []) do
+    validate_change(changeset, field, fn _, url ->
+      uri =
+        url
+        |> prepend_url_scheme()
+        |> URI.parse()
+
+      case uri.scheme != nil && uri.host =~ "." do
+        true -> []
+        false -> [{field, options[:message] || "Invalid url"}]
+      end
+    end)
+  end
+
+  defp prepend_url_scheme(url) do
+    case String.contains?(url, ["http://", "https://"]) do
+      true -> url
+      false -> "https://#{url}"
+    end
   end
 end
