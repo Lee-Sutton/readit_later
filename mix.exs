@@ -46,6 +46,9 @@ defmodule ReaditLater.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
+      {:httpoison, "~> 1.6"},
+      {:floki, "~> 0.26.0"},
+      {:html_sanitize_ex, "~> 1.3.0-rc3"},
       {:phx_gen_auth, "~> 0.3.0", only: [:dev], runtime: false},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
     ]

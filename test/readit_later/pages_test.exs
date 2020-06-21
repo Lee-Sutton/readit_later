@@ -34,11 +34,14 @@ defmodule ReaditLater.PagesTest do
       assert Pages.get_user_web_page!(user, web_page.id) == web_page
     end
 
-    test "create_web_page/1 with valid data creates a web_page", %{user: user} do
+    @tag :wip
+    test "create_web_page/1 with valid data creates a web_page with nested tags", %{user: user} do
       assert {:ok, %WebPage{} = web_page} = Pages.create_web_page(@valid_attrs, user)
       assert web_page.content == "some content"
       assert web_page.notes == "some notes"
       assert web_page.url == "https://valid-url.com"
+      Enum.each(web_page.tags, fn %ReaditLater.Pages.Tag{} = tag -> assert name end)
+      assert web_page.tags == ["tag1", "tag2"]
     end
 
     test "create_web_page/1 with invalid data returns error changeset", %{user: user} do

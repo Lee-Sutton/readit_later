@@ -108,6 +108,17 @@ defmodule ReaditLater.Pages do
     WebPage.changeset(web_page, user, attrs)
   end
 
+  def fetch_web_page_content(%WebPage{} = web_page) do
+    # Start with the happy path
+    {:ok, response} = HTTPoison.get(web_page.url)
+    {:ok, document} = Floki.parse_document(response.body())
+
+    document
+    |> Floki.find("body")
+    |> Floki.raw_html()
+    |> HtmlSanitizeEx.basic_html()
+  end
+
   defp user_web_page_query(query, %Account.User{id: user_id}) do
     from(w in query, where: w.user_id == ^user_id)
   end

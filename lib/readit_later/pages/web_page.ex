@@ -24,7 +24,7 @@ defmodule ReaditLater.Pages.WebPage do
   end
 
   defp parse_tags(user, params) do
-    (params["tags"] || "")
+    (params["tags"] || params[:tags] || "")
     |> String.split(",")
     |> Enum.map(&String.trim/1)
     |> Enum.reject(fn x -> x == "" end)
