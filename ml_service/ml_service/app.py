@@ -3,11 +3,11 @@ from pydantic import BaseModel
 from ml_service.article_parser import parse_article
 
 
+app = FastAPI()
+
+
 class Article(BaseModel):
     url: str
-
-
-app = FastAPI()
 
 
 @app.post("/parse_article")
