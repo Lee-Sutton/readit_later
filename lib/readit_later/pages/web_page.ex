@@ -9,7 +9,7 @@ defmodule ReaditLater.Pages.WebPage do
     field :notes, :string
     field :url, :string
     belongs_to :user, ReaditLater.Account.User
-    many_to_many :tags, ReaditLater.Pages.Tag, join_through: "web_page_tags"
+    many_to_many :tags, ReaditLater.Pages.Tag, join_through: "web_page_tags", on_replace: :delete
 
     timestamps()
   end

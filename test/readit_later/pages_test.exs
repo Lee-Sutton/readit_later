@@ -7,8 +7,17 @@ defmodule ReaditLater.PagesTest do
   describe "web_pages" do
     alias ReaditLater.Pages.WebPage
 
-    @valid_attrs %{content: "some content", notes: "some notes", url: "https://valid-url.com", tags: "tag1,tag2"}
-    @update_attrs %{content: "some updated content", notes: "some updated notes", url: "updated-url.com"}
+    @valid_attrs %{
+      content: "some content",
+      notes: "some notes",
+      url: "https://valid-url.com",
+      tags: "tag1,tag2"
+    }
+    @update_attrs %{
+      content: "some updated content",
+      notes: "some updated notes",
+      url: "updated-url.com"
+    }
     @invalid_attrs %{content: nil, notes: nil, url: nil}
 
     setup do
@@ -34,14 +43,20 @@ defmodule ReaditLater.PagesTest do
       assert Pages.get_user_web_page!(user, web_page.id) == web_page
     end
 
-    @tag :wip
     test "create_web_page/1 with valid data creates a web_page with nested tags", %{user: user} do
       assert {:ok, %WebPage{} = web_page} = Pages.create_web_page(@valid_attrs, user)
       assert web_page.content == "some content"
       assert web_page.notes == "some notes"
       assert web_page.url == "https://valid-url.com"
-      Enum.each(web_page.tags, fn %ReaditLater.Pages.Tag{} = tag -> assert name end)
-      assert web_page.tags == ["tag1", "tag2"]
+
+      tag_names =
+        for tag <- web_page.tags do
+          tag.title
+        end
+
+      Enum.each(["tag1", "tag2"], fn expected_tag ->
+        assert Enum.member?(tag_names, expected_tag)
+      end)
     end
 
     test "create_web_page/1 with invalid data returns error changeset", %{user: user} do
